@@ -26,7 +26,6 @@ def friends_adding():
         print(f"logging in account {user['login']}")
         time.sleep(3)
         steam_user_login(user["login"], user["password"], user["2fa"])
-        print(f"{steam_client.user.name} friends number {steam_client.friends} --- Before adding")
         for steam_id in steam_ids_chunks[i]:
             print(f"adding friend {steam_id} to {steam_client.user.name} account")
             friends_adder = SteamFriendlist(steam_client)
@@ -35,9 +34,20 @@ def friends_adding():
         i += 1
         time.sleep(3)
         print(f"{steam_client.user.name} friends number {steam_client.friends} --- After adding")
-        print(f"logging out account {user}")
+        print(f"logging out account {user['login']}")
         steam_client.logout()
 
 
+def friend_list_checking():
+    for user in users_data["accounts"]:
+        print(f"logging in account {user['login']}")
+        steam_user_login(user["login"], user["password"], user["2fa"])
+        time.sleep(2)
+        print(f"{steam_client.user.name} friends number {steam_client.friends} --- After adding")
+        time.sleep(2)
+        print(f"logging out account {user['login']}")
+        steam_client.logout()
+
 if __name__ == '__main__':
-    friends_adding()
+    # friends_adding()
+    friend_list_checking()
