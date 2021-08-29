@@ -1,5 +1,7 @@
-/venv/
+/env/
 .idea/
 __pycache__/
 steam_accounts.txt
 steamids.txt
+preparation.txt
+accounts_friends_counter.csv
