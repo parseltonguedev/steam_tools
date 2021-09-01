@@ -18,10 +18,7 @@ def friends_adding():
     for user in users_data["accounts"]:
         print(f"logging in account {user['login']}")
         time.sleep(3)
-        secret = {'shared_secret': user["shared_secret"], 'identity_secret': user["identity_secret"]}
-        steam_authenticator = guard.SteamAuthenticator(secret)
-        code = steam_authenticator.get_code()
-        steam_client.login(user['login'], user['password'], two_factor_code=code)
+        steam_client.login(user['login'], user['password'], two_factor_code=get_2FA_code(user))
         for steam_id in steam_ids_chunks[i]:
             print(f"adding friend {steam_id} to {user['login']} account")
             friends_adder = SteamFriendlist(steam_client)
@@ -37,15 +34,18 @@ def friend_list_checking():
     for user in users_data["accounts"]:
         print(f"logging in account {user['login']}")
         time.sleep(3)
-        secret = {'shared_secret': user["shared_secret"], 'identity_secret': user["identity_secret"]}
-        steam_authenticator = guard.SteamAuthenticator(secret)
-        code = steam_authenticator.get_code()
-        steam_client.login(user['login'], user['password'], two_factor_code=code)
+        steam_client.login(user['login'], user['password'], two_factor_code=get_2FA_code(user))
         print(f"{user['login']} friends number {steam_client.friends}")
 
         print(f"logging out account {user['login']}")
         steam_client.logout()
 
+
+def get_2FA_code(user):
+    secret = {'shared_secret': user["shared_secret"], 'identity_secret': user["identity_secret"]}
+    steam_authenticator = guard.SteamAuthenticator(secret)
+    code = steam_authenticator.get_code()
+    return code
 
 if __name__ == '__main__':
     # friends_adding()
